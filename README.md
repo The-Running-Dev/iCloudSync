@@ -32,6 +32,12 @@ Sync with the default options:
 ./iCloudSync.ps1
 ```
 
+Sync by specifying the directories to sync to and the final destination:
+
+```powershell
+./iCloudSync.ps1 -Directory 'Z:\@iCloud\.Organize' -DestinationDir = 'Z:\@iCloud'
+```
+
 ### Sync Arguments
 
 Name | Type | Default | Description
@@ -73,21 +79,21 @@ skipOrganize | switch | false | Should the media organization step be skipped
 
 ## Settings
 
-These are the settings in the ```iCloudSync.ini``` that you can modify. Self explanatory for the most part.
+These are the settings in the ```iCloudSync.ini``` that you can modify.
 
-Name | Value
----|---
-SettingsPath | $(Join-Path $env:AppData 'iCloudSync\iCloudSync.ini')
-ImageFilter | \\.(jpg\|jpeg\|png)
-VideoFilter | \\.(mov\|3gp\|mp4)
-MediaFilter | \\.(jpg\|jpeg\|png\|mov\|3gp\|mp4)
-MediaFileNameFormatString | yyyy.MM.dd.HH.mm.ss
-ScheduledTaskName | iCloudSync
-RunEveryXHours | 12
-PowerShellExePath | C:\\Program Files\\PowerShell\\7\\pwsh.exe
-PowerShellArguments | -ExecutionPolicy Bypass "$(Join-Path (Split-Path $PSScriptRoot -Parent) iCloudSync.ps1)"
-DownloaderExePath | $(Join-Path $PSScriptRoot 'tools\\icloudpd-1.13.4-windows-amd64.exe')
-DownloaderArguments | --skip-live-photos --folder-structure none --delete-after-download --no-progress-bar --recent 100
-JheadExePath | $(Join-Path $PSScriptRoot 'tools\\jhead.exe')
-ExifToolExePath | $(Join-Path $PSScriptRoot 'tools\\exiftool.exe')
-CredentialsPath | $(Join-Path $env:AppData 'iCloudSync\\Credentails.xml')
+Name | Value | Description
+---|---|---
+SettingsPath | $(Join-Path $env:AppData 'iCloudSync\iCloudSync.ini') | The path to the user settings file, you shouldn't have to change this
+ImageFilter | \\.(jpg\|jpeg\|png) | The extensions to filter images by
+VideoFilter | \\.(mov\|3gp\|mp4) | The extensions to filter videos by
+MediaFilter | \\.(jpg\|jpeg\|png\|mov\|3gp\|mp4) | The combined list of media extensions
+MediaFileNameFormatString | yyyy.MM.dd.HH.mm.ss | The format of the file name when renaming files
+ScheduledTaskName | iCloudSync | The name of the scheduled task created with ```-install```
+RunEveryXHours | 12 | The repeat interval in hours for the scheduled task
+PowerShellExePath | C:\\Program Files\\PowerShell\\7\\pwsh.exe | The path to the PowerShell executable for the scheduled task
+PowerShellArguments | -ExecutionPolicy Bypass "$(Join-Path (Split-Path $PSScriptRoot -Parent) iCloudSync.ps1)" | The PowerShell arguments for the scheduled task
+DownloaderExePath | $(Join-Path $PSScriptRoot 'tools\\icloudpd-1.13.4-windows-amd64.exe') | The path to the ```icloudpd``` executable
+DownloaderArguments | --skip-live-photos --folder-structure none --delete-after-download --no-progress-bar --recent 100 | The arguments used by the ```icloudpd``` downloader
+JheadExePath | $(Join-Path $PSScriptRoot 'tools\\jhead.exe') | The path to the ```jhead``` executable
+ExifToolExePath | $(Join-Path $PSScriptRoot 'tools\\exiftool.exe') | The path to the ```exiftool``` executable
+CredentialsPath | $(Join-Path $env:AppData 'iCloudSync\\Credentails.xml') | The path to where the credentials file is stored
