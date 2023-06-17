@@ -3,7 +3,21 @@
 A set of PowerShell scripts to download and organize iCloud media. The scripts use the awesome iCloud downloader from <https://github.com/icloud-photos-downloader/icloud_photos_downloader> to
 do the actual download. And the organization happens in a specific way, please read below.
 
-Here is what the ```iCloudSync.ps1``` does:
+## Table of Contents
+
+- [iCloudSync](#icloudsync)
+  - [Table of Contents](#table-of-contents)
+  - [How it Works](#how-it-works)
+  - [How to Use](#how-to-use)
+    - [Sync Arguments](#sync-arguments)
+    - [Organize Arguments](#organize-arguments)
+  - [Settings](#settings)
+  - [Skipping Steps](#skipping-steps)
+  - [Testing](#testing)
+
+## How it Works
+
+Here is what the ```iCloudSync.ps1``` script does in order:
 
 1. Gets the settings from ```iCloudSync.ini``` file. If the file does not exist,
    it creates it in the ```$env:AppData\iCloudSync``` directory.
@@ -97,3 +111,72 @@ DownloaderArguments | --skip-live-photos --folder-structure none --delete-after-
 JheadExePath | $(Join-Path $PSScriptRoot 'tools\\jhead.exe') | The path to the ```jhead``` executable
 ExifToolExePath | $(Join-Path $PSScriptRoot 'tools\\exiftool.exe') | The path to the ```exiftool``` executable
 CredentialsPath | $(Join-Path $env:AppData 'iCloudSync\\Credentails.xml') | The path to where the credentials file is stored
+
+## Skipping Steps
+
+You can skip any of the steps the script takes by passing the appropriate ```skip``` parameter.
+
+* Passing ```-skipDownload``` skips the download step all together
+
+   ```powershell
+   ./iCloudSync.ps1 -skipDownload
+   ```
+
+* Passing ```-skipProcessing``` skips the processing steps all together
+
+   ```powershell
+   ./iCloudSync.ps1 -skipProcessing
+   ```
+
+* Passing ```-skipBackup``` skips the backup and it does not create a backup of the media
+
+   ```powershell
+   ./iCloudSync.ps1 -skipBackup
+   ```
+
+* Passing ```-skipRename``` skips rename the downloaded media
+
+   ```powershell
+   ./iCloudSync.ps1 -skipRename
+   ```
+
+* Passing ```-skipDuplicates``` skips the check for duplicates step
+
+   ```powershell
+   ./iCloudSync.ps1 -skipDuplicates
+   ```
+
+* Passing ```-skipOrganize``` skips the organize step
+
+   ```powershell
+   ./iCloudSync.ps1 -skipOrganize
+   ```
+
+* You can also pass all of them at once
+
+   ```powershell
+   ./iCloudSync.ps1 -skipDownload -skipProcessing -skipBackup -skipRename -skipDuplicates -skipOrganize
+   ```
+
+## Testing
+
+There is a couple of parameters you can pass the script if you only want to simulate the work being done and not make any changes.
+
+* Passing ```-whatIf``` will output to the console all the actions the script will take, but not
+  actually take them
+
+   ```powershell
+   ./iCloudSync.ps1 -whatIf
+   ```
+
+* Passing ```-debug``` will output extra debug information
+
+   ```powershell
+   ./iCloudSync.ps1 -debug
+   ```
+
+* You can also pass both ```-whatIf -debug``` for a combination of both
+
+   ```powershell
+   ./iCloudSync.ps1 -whatIf -debug
+   ```
