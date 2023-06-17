@@ -5,7 +5,6 @@ function Get-ImageData {
         [Parameter()][hashtable] $settings
     )
     $dateTimeCreatedPropertyId = 36867
-    $dateTimeFormatString = 'yyyy.MM.dd.HH.mm.ss'
     $image = [System.Drawing.Image]::FromFile($filePath)
 
     $dateTimeAsBytes = $image.PropertyItems | `
@@ -21,7 +20,7 @@ function Get-ImageData {
     }
 
     $partialSeconds = Get-Date -f 'ffff'
-    $destinationName = "$($createdOn.ToString($dateTimeFormatString)).$partialSeconds$($_.Extension.toLower())"
+    $destinationName = "$($createdOn.ToString($settings.MediaFileNameFormatString)).$partialSeconds$($_.Extension.toLower())"
 
     $image.Dispose()
 

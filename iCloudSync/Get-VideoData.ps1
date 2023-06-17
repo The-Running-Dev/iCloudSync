@@ -4,7 +4,6 @@ function Get-VideoData {
         [Parameter()][string] $filePath,
         [Parameter()][hashtable] $settings
     )
-    $dateTimeFormatString = 'yyyy.MM.dd.HH.mm.ss'
 
     $file = Get-Item $filePath
     $creationDate = & $settings.ExifToolExePath $filePath -createdate | `
@@ -20,7 +19,7 @@ function Get-VideoData {
     }
 
     $partialSeconds = Get-Date -f 'ffff'
-    $destinationName = "$($createdOn.ToString($dateTimeFormatString)).$partialSeconds$($file.Extension.toLower())"
+    $destinationName = "$($createdOn.ToString($settings.MediaFileNameFormatString)).$partialSeconds$($file.Extension.toLower())"
 
     return @{
         Path            = $file.FullName;

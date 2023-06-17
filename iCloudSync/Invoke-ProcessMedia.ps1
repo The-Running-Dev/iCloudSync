@@ -1,10 +1,11 @@
 function Invoke-ProcessMedia {
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory, ValueFromPipeline)] $directory,
-        [Parameter(Mandatory, ValueFromPipeline)] $destinationDir,
-        [Parameter(Mandatory, ValueFromPipeline)] $backupDir,
-        [Parameter(Mandatory, ValueFromPipeline)] $duplicatesDir,
+        [Parameter(Mandatory, ValueFromPipeline)][string] $directory,
+        [Parameter(Mandatory, ValueFromPipeline)][string] $destinationDir,
+        [Parameter(ValueFromPipeline)][string] $videosDestinationDir,
+        [Parameter(ValueFromPipeline)][string] $backupDir,
+        [Parameter(ValueFromPipeline)][string] $duplicatesDir,
         [Parameter()][hashtable] $settings,
         [Parameter()][switch] $skipBackup = $false,
         [Parameter()][switch] $skipProcessing = $false,
@@ -39,6 +40,7 @@ function Invoke-ProcessMedia {
     Move-Media `
         -Directory $directory `
         -DestinationDir $destinationDir `
+        -VideosDestinationDir $videosDestinationDir `
         -Settings $settings `
         -SkipOrganize:$skipOrganize `
         -WhatIf:$WhatIfPreference `

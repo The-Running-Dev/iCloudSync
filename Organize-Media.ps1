@@ -1,9 +1,10 @@
 [CmdletBinding(SupportsShouldProcess)]
 param(
-    [Parameter(ValueFromPipeline)] $directory = 'Z:\@iCloud\.Organize',
-    [Parameter(ValueFromPipeline)] $destinationDir = 'Z:\@iCloud',
-    [Parameter(ValueFromPipeline)] $backupDir = 'Z:\@iCloud\.Organize\.Original',
-    [Parameter(ValueFromPipeline)] $duplicatesDir = 'Z:\@iCloud\.Organize\.Duplicates',
+    [Parameter(ValueFromPipeline)][string] $directory = 'Z:\@iCloud\.Organize',
+    [Parameter(ValueFromPipeline)][string] $destinationDir = 'Z:\@iCloud',
+	[Parameter(ValueFromPipeline)][string] $videosDestinationDir = 'Z:\@iCloud\Videos',
+    [Parameter(ValueFromPipeline)][string] $backupDir = 'Z:\@iCloud\.Organize\.Original',
+    [Parameter(ValueFromPipeline)][string] $duplicatesDir = 'Z:\@iCloud\.Organize\.Duplicates',
 	[Parameter()][switch] $skipProcessing = $false,
 	[Parameter()][switch] $skipBackup = $false,
 	[Parameter()][switch] $skipRename = $false,
@@ -13,16 +14,16 @@ param(
 
 Import-Module (Join-Path $PSScriptRoot 'iCloudSync.psm1') -Force
 
-$settings = Read-Settings `
-    -File (Join-Path $PSScriptRoot 'iCloudSync.ini') `
-    -WhatIf:$WhatIfPreference `
-    -Debug:$DebugPreference
+$settings = Get-Settings `
+	-WhatIf:$WhatIfPreference `
+	-Debug:$DebugPreference
 
-Write-Debug $settings
+Write-Debug ($settings | Out-String)
 
 Invoke-ProcessMedia `
 	-Directory $directory `
 	-DestinationDir $destinationDir `
+	-VideosDestinationDir $videosDestinationDir `
 	-BackupDir $backupDir `
 	-DuplicatesDir $duplicatesDir `
 	-Settings $settings `

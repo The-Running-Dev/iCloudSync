@@ -1,10 +1,10 @@
 [CmdletBinding(SupportsShouldProcess)]
 param(
-	[Parameter(ValueFromPipeline)] $directory = 'Z:\@iCloud\.Organize',
-    [Parameter(ValueFromPipeline)] $destinationDir = 'Z:\@iCloud',
-	[Parameter(ValueFromPipeline)] $videosDestinationDir = 'Z:\@iCloud\Videos',
-	[Parameter(ValueFromPipeline)] $backupDir = 'Z:\@iCloud\.Organize\.Original',
-	[Parameter(ValueFromPipeline)] $duplicatesDir = 'Z:\@iCloud\.Organize\.Duplicates',
+	[Parameter(ValueFromPipeline)][string] $directory = 'Z:\@iCloud\.Organize',
+    [Parameter(ValueFromPipeline)][string] $destinationDir = 'Z:\@iCloud',
+	[Parameter(ValueFromPipeline)][string] $videosDestinationDir = 'Z:\@iCloud\Videos',
+	[Parameter(ValueFromPipeline)][string] $backupDir = 'Z:\@iCloud\.Organize\.Original',
+	[Parameter(ValueFromPipeline)][string] $duplicatesDir = 'Z:\@iCloud\.Organize\.Duplicates',
 	[Parameter()][switch] $skipDownload = $false,
 	[Parameter()][switch] $skipProcessing = $false,
 	[Parameter()][switch] $skipBackup = $false,
@@ -22,7 +22,6 @@ $settings = Get-Settings `
     -Debug:$DebugPreference
 
 Write-Debug ($settings | Out-String)
-
 
 if ($install) {
 	Install-iCloudSync -Settings $settings
@@ -46,6 +45,7 @@ Sync-Media `
 Invoke-ProcessMedia `
 	-Directory $directory `
 	-DestinationDir $destinationDir `
+	-VideosDestinationDir $videosDestinationDir `
 	-BackupDir $backupDir `
 	-DuplicatesDir $duplicatesDir `
 	-Settings $settings `
