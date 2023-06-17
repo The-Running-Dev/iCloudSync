@@ -50,10 +50,10 @@ function Move-Media {
                 }
             }
 
-            $destination = Join-Path $subDirectory $fileName
+            $destinationPath = Join-Path $subDirectory $fileName
 
-            if ($PSCmdlet.ShouldProcess($sourcePath, "Move-Item --> $destination")) {
-                Move-Item $source $destination
+            if ($PSCmdlet.ShouldProcess($sourcePath, "Move-Item --> $destinationPath")) {
+                Move-Item $sourcePath $destinationPath
             }
         }
     }
