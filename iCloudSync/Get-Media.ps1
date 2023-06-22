@@ -9,7 +9,7 @@ function Get-Media {
     Write-Debug $directory
 
     $filesToProcess = @()
-    $files = Get-ChildItem -Recurse $directory | `
+    $files = Get-ChildItem -File $directory | `
         Where-Object {
             $_.DirectoryName -NotMatch $excludeDirectories `
             -and $settings.MediaFilter -imatch $_.Extension
@@ -32,12 +32,7 @@ function Get-Media {
 
         Write-Progress -Activity "Finding Media...." -Status "$counter/$totalCount, $percentComplete% Complete" -PercentComplete $percentComplete
 
-        if ($settings.ImageFilter -imatch $_.Extension) {
-            $filesToProcess += Get-ImageData -FilePath $fullName -Settings $settings
-        }
-        elseif ($settings.VideoFilter -imatch $_.Extension) {
-            $filesToProcess += Get-VideoData -FilePath $fullName -Settings $settings
-        }
+        $filesToProcess += Get-MediaData -FilePath $fullName -Settings $settings
     }
 
     return $filesToProcess
