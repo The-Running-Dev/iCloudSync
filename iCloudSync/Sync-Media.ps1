@@ -12,6 +12,8 @@ function Sync-Media {
         return
     }
 
+    Write-Host "Downloading Media..."
+
     if (-not (Test-Path $settings.CredentialsPath)) {
         Get-Credential -Title "Enter Your iCloud Credentials" -Message " " | Export-Clixml -Path $settings.CredentialsPath
     }
