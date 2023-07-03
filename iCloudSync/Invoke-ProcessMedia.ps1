@@ -20,6 +20,19 @@ function Invoke-ProcessMedia {
         return
     }
 
+    Write-Debug "Organizing All Media..."
+    New-Item -ItemType Directory $destinationDir -ErrorAction SilentlyContinue | Out-Null
+
+    & $settings.ExifToolExePath `
+        -o $destinationDir `
+        -d "%Y.%m.%H.%M.%S.%%le" `
+        '-filename<filemodifydate' `
+        '-filename<createdate' `
+        '-filename<datetimeoriginal' `
+        -ext jpg -ext jpeg -ext png -ext mp4 -ext mov -ext webm -ext 3gp `
+        $directory
+    <#
+    -q `
     Rename-Media `
         -Directory $directory `
         -BackupDirectory $backupDir `
@@ -28,6 +41,10 @@ function Invoke-ProcessMedia {
         -SkipRename:$skipRename `
         -WhatIf:$WhatIfPreference `
         -Debug:$DebugPreference
+    #>
+
+    Write-Debug "Rotating All Pictures..."
+    & $settings.JheadExePath -autorot "$destinationDir\*.jpg"
 
     Find-Duplicates `
         -Directory $directory `
@@ -37,6 +54,26 @@ function Invoke-ProcessMedia {
         -WhatIf:$WhatIfPreference `
         -Debug:$DebugPreference
 
+    <#
+    Write-Debug "Organizing All Pictures..."
+    & $settings.ExifToolExePath `
+        -o . `
+        -d "$destinationDir/%Y/%m/%Y.%m.%H.%M.%S.%%le" `
+        '-filename<filemodifydate' `
+        '-filename<createdate' `
+        '-filename<datetimeoriginal' `
+        -ext jpg -ext jpeg -ext png `
+        $directory | Set-Content (Join-Path $directory '.organize-pictures.log')
+
+    Write-Debug "Organizing All Videos..."
+    & $settings.ExifToolExePath `
+        -o . `
+        -d "$videosDestinationDir/%Y/%m/%Y.%m.%H.%M.%S.%%le" `
+        '-filename<filemodifydate' `
+        '-filename<createdate' `
+        '-filename<datetimeoriginal' `
+        -ext mp4 -ext mov -ext webm -ext 3gp `
+        $directory | Set-Content (Join-Path $directory '.organize-videos.log')
     Move-Media `
         -Directory $directory `
         -DestinationDir $destinationDir `
@@ -45,4 +82,5 @@ function Invoke-ProcessMedia {
         -SkipOrganize:$skipOrganize `
         -WhatIf:$WhatIfPreference `
         -Debug:$DebugPreference
+    #>
 }

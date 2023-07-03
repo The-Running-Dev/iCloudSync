@@ -1,10 +1,10 @@
 [CmdletBinding(SupportsShouldProcess)]
 param(
-	[Parameter(ValueFromPipeline)][string] $directory = 'Z:\@iCloud\.Organize',
-    [Parameter(ValueFromPipeline)][string] $destinationDir = 'Z:\@iCloud',
+	[Parameter(ValueFromPipeline)][string] $directory = 'Z:\@iCloud',
+    [Parameter(ValueFromPipeline)][string] $destinationDir = 'Z:\@iCloud\Pictures',
 	[Parameter(ValueFromPipeline)][string] $videosDestinationDir = 'Z:\@iCloud\Videos',
-	[Parameter(ValueFromPipeline)][string] $backupDir = 'Z:\@iCloud\.Organize\.Original',
-	[Parameter(ValueFromPipeline)][string] $duplicatesDir = 'Z:\@iCloud\.Organize\.Duplicates',
+	[Parameter(ValueFromPipeline)][string] $backupDir = 'Z:\@iCloud\Original',
+	[Parameter(ValueFromPipeline)][string] $duplicatesDir = 'Z:\@iCloud\Duplicates',
 	[Parameter()][switch] $skipDownload = $false,
 	[Parameter()][switch] $skipProcessing = $false,
 	[Parameter()][switch] $skipBackup = $false,
